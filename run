@@ -1,0 +1,27 @@
+#!/bin/bash
+
+start() {
+    adb shell /data/local/tmp/hello-socket
+}
+
+build() {
+    rm -rf obj/local/x86/hello-socket 
+    ndk-build
+    adb push obj/local/x86/hello-socket /data/local/tmp/
+}
+
+mac() {
+    rm jni/hello
+    gcc jni/hello-socket.c -o jni/hello
+}
+
+server() {
+    #FLASK_APP=test/server.py flask run
+    python test/server.py
+}
+
+help() {
+    echo "function: start, build, mac, server"
+}
+
+${1}
